@@ -28,8 +28,9 @@ def init_db():
 
 @app.before_request
 def before_request():
-    # later on we will be using a db for this
+    # later on we will be using a Heroku postgres db to store urls
     #g.db = connect_db()
+    # but now will use a in-memory-thingy stored in g
     pass
 
 
