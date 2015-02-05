@@ -43,9 +43,9 @@ def teardown_request(exception):
 # view functions
 
 @app.route('/')
-def hello_world():
-    """Hello World!"""
-    return 'Hello World'
+def show_index():
+    """Show the webapp main page"""
+    return redirect(url_for('static', filename='index.html'))
 
 if __name__ == '__main__':
     app.run()
