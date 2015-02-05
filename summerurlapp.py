@@ -18,10 +18,10 @@ def connect_db():
     return psycopg2.connect(database = app.config['DATABASE'])
 
 def init_db():
-    """Initializes the database
+    """Utility function to initialize the database.
     """
     #TODO initialize the database with schema.sql
-    # sqlalchemy etc seems overkill for an app this simple
+    # sqlalchemy etc seems overkill for a small app like this
 
     pass
 
