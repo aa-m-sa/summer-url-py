@@ -40,12 +40,54 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-# view functions
+# views
 
 @app.route('/')
 def show_index():
     """Show the webapp main page"""
     return redirect(url_for('static', filename='index.html'))
+
+
+@app.route('/api/shorten', methods=['POST'])
+def shorten():
+    """Shorten the URL contained in the parameters"""
+    if request.headers.get('Content-Type') != 'application/x-www-form-urlencoded':
+        raise Exception("received POST request Content-Type doesn't conform to API.")
+    return create_shortened(request.form['link'])
+
+
+@app.route('/api/<textid>', methods=['GET'])
+def get_link(textid):
+    """Redirect to the previously stored url, indentified by id"""
+    return redirect(url_shortened(textid), code=301)
+
+def create_shortened(link):
+    """Assign an unique id to link and store both in the db.
+
+    :link: url string
+    :returns: id as text/plain
+
+    """
+    # how this will work internally:
+    # db rows: id (integer), text (url)
+    # new link -> id++, add to db
+    # this ensures that two different links will not get the same id
+    # each integer id is mapped into an ASCII string (which is returned)
+    pass
+
+def url_shortened(textid):
+    """Return a valid url assigned to this textid
+
+    :textid: text/plain id
+    :returns: url string
+
+    """
+
+    # parse text id to integer
+    # fetch the url for that key from db
+
+    # TODO
+    return url_for('static', filename='notfound.html')
 
 if __name__ == '__main__':
     app.run()
