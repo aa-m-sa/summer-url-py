@@ -46,13 +46,22 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-# views
+# routes:
+
+# web views
 
 @app.route('/')
 def show_index():
     """Show the webapp main page"""
     return render_template('mainpage.html')
 
+@app.route('/addlink', methods=['POST'])
+def add_link():
+    """Web entry point for api/shorten"""
+    shortened = shorten()
+    return render_template('shortened.html', shortened = shortened)
+
+# the underlying (public) api
 
 @app.route('/api/shorten', methods=['POST'])
 def shorten():
@@ -79,7 +88,7 @@ def create_shortened(link):
     # new link -> id++, add to db
     # this ensures that two different links will not get the same id
     # each integer id is mapped into an ASCII string (which is returned)
-    pass
+    return url_for('static', filename='notfound.html')
 
 def url_shortened(textid):
     """Return a valid url assigned to this textid

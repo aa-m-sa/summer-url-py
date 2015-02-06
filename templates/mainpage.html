@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
-    <p>The graphical UI to access the API will appear here.</p>
-    <p>
-    Objective: Paste an URL, click a nice friendly button, and BOOM,
-    here appears the short url.
-    </p>
+    <p> Shorten your link with this: </p>
+    <form action="{{ url_for('add_link') }}" method=post class=add-link>
+        <label for="link">Link:</label>
+        <input type=text size=80 name="link" id="link">
+        <input type=submit value=Shorten>
+    </form>
+
 {% endblock %}
