@@ -94,7 +94,16 @@ def shorten():
     # each integer id is mapped into an ASCII string (which is returned)
 
     cur = g.db.cursor()
-    cur.execute('insert into urls (url) values (%s) returning id', [request.form['link']])
+    rawlink = request.form['link']
+
+    # crude but work in most cases
+    # TODO urlnorm normalization
+    if not urlparse.urlparse(rawlink)[0]:
+        alink = 'http://' + rawlink
+    else:
+        alink = rawlink
+
+    cur.execute('insert into urls (url) values (%s) returning id', [alink])
     idinteger = cur.fetchone()
     if not idinteger:
         raise Exception('insertin url into db failed')
