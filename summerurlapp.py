@@ -23,12 +23,13 @@ def connect_db():
     return psycopg2.connect(database = app.config['DATABASE'])
 
 def init_db():
-    """Utility function to initialize the database.
+    """Utility function to initialize the database with schema.sql.
     """
-    #TODO initialize the database with schema.sql
-    # sqlalchemy etc seems overkill for a small app like this
-
-    pass
+    with connect_db() as conn:
+        with conn.cursor() as curs:
+            with open("schema.sql", "r") as sch_file:
+                curs.execute(sch_file.read())
+        conn.commit()
 
 
 @app.before_request
