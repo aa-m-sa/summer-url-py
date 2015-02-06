@@ -51,7 +51,7 @@ def teardown_request(exception):
 @app.route('/')
 def show_index():
     """Show the webapp main page"""
-    return redirect(url_for('static', filename='index.html'))
+    return render_template('mainpage.html')
 
 
 @app.route('/api/shorten', methods=['POST'])
