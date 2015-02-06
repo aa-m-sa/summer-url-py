@@ -1,14 +1,16 @@
 # the app config
+import os
 
 class Config(object):
 
     """Different configuration settings subclassed from this"""
 
-    DATABASE = 'insert heroku postgres db here'
+    DATABASE_URL = 'insert devel url here'
     DEBUG = False
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    DATABASE_URL = os.environ.get("SUMMER_DEV_DATABASE_URL")
 
 class ProductionConfig(Config):
-    DATABASE = 'insert production db here'
+    DATABASE_URL = os.environ.get("DATABASE_URL")

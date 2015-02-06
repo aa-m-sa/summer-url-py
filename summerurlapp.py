@@ -4,6 +4,7 @@ import psycopg2 # if we want to persistent strorage on heroku
 from flask import Flask, request,  g, redirect, url_for, abort, render_template, flash
 from contextlib import closing
 import os
+import urlparse
 
 import appconfig
 
@@ -20,7 +21,21 @@ def connect_db():
     :returns: db connection obj
 
     """
-    return psycopg2.connect(database = app.config['DATABASE'])
+    if not app.config['DATABASE_URL']:
+        raise Exception('Database URL not set!')
+
+    urlparse.uses_netloc.append("postgres")
+    url = urlparse.urlparse(app.config['DATABASE_URL'])
+
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
+    return conn
 
 def init_db():
     """Utility function to initialize the database with schema.sql.
@@ -35,10 +50,7 @@ def init_db():
 @app.before_request
 def before_request():
     # later on we will be using a Heroku postgres db to store urls
-    #g.db = connect_db()
-    # actually in-memory thingy is a very bad idea;
-    # mainly because it doesn't work (concurrency problems)
-    pass
+    g.db = connect_db()
 
 
 @app.teardown_request
