@@ -3,11 +3,16 @@
 import psycopg2 # if we want to persistent strorage on heroku
 from flask import Flask, request,  g, redirect, url_for, abort, render_template, flash
 from contextlib import closing
+import os
 
-CONFIGMODULE = 'appconfig'
+import appconfig
+
+APPSETTINGS_ENVVAR = 'SUMMER_APP_CONFIG'
 
 app = Flask(__name__)
-app.config.from_object(CONFIGMODULE)
+app.config.from_object(appconfig.DevelopmentConfig)
+# override with env var (if it's been set)
+app.config.from_object(os.environ[APPSETTINGS_ENVVAR])
 
 def connect_db():
     """Connect to the database.

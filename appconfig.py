@@ -1,9 +1,14 @@
 # the app config
 
-# the initial dev version
+class Config(object):
 
-# TODO use envvars?
-DATABASE = 'insert heroku postgres db here'
-DEBUG = True
+    """Different configuration settings subclassed from this"""
 
+    DATABASE = 'insert heroku postgres db here'
+    DEBUG = False
 
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DATABASE = 'insert production db here'
