@@ -78,33 +78,34 @@ def add_link():
 
 @app.route('/api/shorten', methods=['POST'])
 def shorten():
-    """Shorten the URL contained in the parameters"""
-    if request.headers.get('Content-Type') != 'application/x-www-form-urlencoded':
-        raise Exception("received POST request Content-Type doesn't conform to API.")
-    return create_shortened(request.form['link'])
+    """Shorten the URL contained in the parameter link, by
+    assigning an unique id to link and store both in the db.
 
-
-@app.route('/api/<textid>', methods=['GET'])
-def get_link(textid):
-    """Redirect to the previously stored url, indentified by id"""
-    return redirect(url_shortened(textid), code=301)
-
-def create_shortened(link):
-    """Assign an unique id to link and store both in the db.
-
-    :link: url string
     :returns: id as text/plain
 
     """
+    if request.headers.get('Content-Type') != 'application/x-www-form-urlencoded':
+        raise Exception("received POST request Content-Type doesn't conform to API.")
+
     # how this will work internally:
     # db rows: id (integer), text (url)
     # new link -> id++, add to db
     # this ensures that two different links will not get the same id
     # each integer id is mapped into an ASCII string (which is returned)
-    return url_for('static', filename='notfound.html')
 
-def url_shortened(textid):
-    """Return a valid url assigned to this textid
+    cur = g.db.cursor()
+    cur.execute('insert into urls (url) values (%s) returning id', [request.form['link']])
+    idinteger = cur.fetchone()
+    if not idinteger:
+        raise Exception('insertin url into db failed')
+    g.db.commit()
+    return url_for('get_link', textid = str(idinteger[0]), _external=True)
+
+
+@app.route('/api/<textid>', methods=['GET'])
+def get_link(textid):
+    """Redirect to the previously stored url, indentified by id.
+    Return a valid url assigned to this textid
 
     :textid: text/plain id
     :returns: url string
@@ -115,7 +116,11 @@ def url_shortened(textid):
     # fetch the url for that key from db
 
     # TODO
-    return url_for('static', filename='notfound.html')
+
+    cur = g.db.cursor()
+    cur.execute('select url from urls where id = %s', [int(textid)])
+    orig_url = cur.fetchone()
+    return redirect(orig_url[0], code=301)
 
 if __name__ == '__main__':
     app.run()
