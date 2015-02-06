@@ -35,7 +35,8 @@ def init_db():
 def before_request():
     # later on we will be using a Heroku postgres db to store urls
     #g.db = connect_db()
-    # but now will use a in-memory-thingy stored in g
+    # actually in-memory thingy is a very bad idea;
+    # mainly because it doesn't work (concurrency problems)
     pass
 
 
