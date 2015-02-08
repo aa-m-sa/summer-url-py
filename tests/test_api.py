@@ -27,6 +27,13 @@ class SummerApiTestCase(unittest.TestCase):
         resp = self.post_shorten(self.testurl_http1)
         self.assertIn("text/plain", resp.headers['Content-Type'])
 
+    def test_shorten_unique_ids(self):
+        resp1 = self.post_shorten(self.testurl_http1)
+        resp2 = self.post_shorten(self.testurl_http1)
+        print resp1.data
+        print resp2.data
+        self.assertNotEqual(resp1.get_data()[0], resp2.get_data()[0])
+
     def test_getbyid_ok(self):
         respPost = self.post_shorten(self.testurl_http1)
         gotid = respPost.data[0]
