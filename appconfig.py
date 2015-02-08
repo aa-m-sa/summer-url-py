@@ -14,3 +14,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DATABASE_URL = os.environ.get("DATABASE_URL")
+
+class TestConfig(Config):
+    DATABASE_URL = os.environ.get("SUMMER_TEST_DATABASE_URL")
+    TESTING = True
