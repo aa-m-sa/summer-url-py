@@ -34,4 +34,4 @@ run `nosetests`
 
 ## license?
 
-[MIT](./LICENCE.txt).
+[MIT](./LICENSE).
