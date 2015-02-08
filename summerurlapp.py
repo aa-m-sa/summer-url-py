@@ -88,7 +88,7 @@ def shorten():
     """Shorten the URL contained in the parameter link, by
     assigning an unique id to link and store both in the db.
 
-    :returns: id as text/plain
+    :returns: text/plain Response object.
 
     """
     if request.headers.get('Content-Type') != 'application/x-www-form-urlencoded':
@@ -122,10 +122,9 @@ def shorten():
 @app.route('/api/<textid>', methods=['GET'])
 def get_link(textid):
     """Redirect to the previously stored url, indentified by id.
-    Return a valid url assigned to this textid
 
-    :textid: text/plain id
-    :returns: url string
+    :textid: the id
+    :returns: a redirect to the corresponding url
 
     """
 
