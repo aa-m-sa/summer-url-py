@@ -18,6 +18,8 @@ The shortening API can be accessed at [/api/](https://surlpy.herokuapp.com/api/)
 ## how to use it?
 
 The repo (python modules + etc) can be pushed to Heroku as-it-is.
+Set environment variable `SUMMER_APP_CONFIG` to point to a Python object that Flask load as its configuration. Your best bet is `appconfig.ProductionConfig`.
+You need also to specify the database URL as another environment variable. See `appconfig.py` for details.
 Initialize (Postgres) database with `python initdb.py`.
 
 ## tests?
@@ -29,7 +31,7 @@ run `nosetests`
 * Python 2.x
 * Flask
 * gunicorn
-* psycopg2
+* psycopg2 and Postgres
 * nose (for tests)
 
 ## license?
