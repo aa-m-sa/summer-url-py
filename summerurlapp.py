@@ -133,7 +133,12 @@ def get_link(textid):
     # TODO the parser bit
 
     cur = g.db.cursor()
-    cur.execute('select url from urls where id = %s', [int(textid)])
+    try:
+        integer_id = int(textid)
+    except ValueError:
+        # current implementation returns only ids that can be converted to int
+        abort(404)
+    cur.execute('select url from urls where id = %s', [integer_id])
     orig_url = cur.fetchone()
     if not orig_url:
         abort(404)
