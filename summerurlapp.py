@@ -1,7 +1,7 @@
 # a small URL shortening service
 
 import psycopg2 # if we want to persistent strorage on heroku
-from flask import Flask, request,  g, redirect, url_for, abort, render_template, flash
+from flask import Flask, request, Response, g, redirect, url_for, abort, render_template
 from contextlib import closing
 import os
 import urlparse
@@ -70,7 +70,7 @@ def main_page():
     if request.method == 'GET':
         return render_template('mainpage.html')
     else:
-        short_url = url_for('get_link', textid = shorten(), _external=True)
+        short_url = url_for('get_link', textid = shorten().get_data()[0], _external=True)
         return render_template('shortened.html', shortened = short_url)
 
 @app.route('/api/')
@@ -113,7 +113,8 @@ def shorten():
     if not idinteger:
         raise Exception('insertin url into db failed')
     g.db.commit()
-    return str(idinteger[0])
+    shortenid = str(idinteger[0])
+    return Response(shortenid, mimetype='text/plain')
 
 
 @app.route('/api/<textid>', methods=['GET'])
