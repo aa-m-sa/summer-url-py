@@ -35,4 +35,10 @@ def to_text(integer):
         integer /= 62
     return text
 
+def to_int(text):
+    """Convert text id back to integer"""
+    integer = 0
+    for i, cha in enumerate(text):
+        integer += str2int(cha) * 62**i
+    return integer
 
