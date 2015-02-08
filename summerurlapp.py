@@ -128,11 +128,13 @@ def get_link(textid):
     # parse text id to integer
     # fetch the url for that key from db
 
-    # TODO
+    # TODO the parser bit
 
     cur = g.db.cursor()
     cur.execute('select url from urls where id = %s', [int(textid)])
     orig_url = cur.fetchone()
+    if not orig_url:
+        abort(404)
     return redirect(orig_url[0], code=301)
 
 if __name__ == '__main__':
