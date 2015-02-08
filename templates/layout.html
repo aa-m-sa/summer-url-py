@@ -6,15 +6,28 @@
 </head>
 <body id="index">
     <header>
-        <div id="titleblock">
-            <h1 id="titletext">SUrlPy</h1>
-        </div>
+        <a href="{{ url_for('main_page') }}">
+            <div id="titleblock">
+                <h1 id="titletext">SUrlPy</h1>
+            </div>
+        </a>
     </header>
     <main>
     <article>
-        <h2>It's an URL shortener!</h2>
-        {% block content %}
-        {% endblock %}
+        <section>
+            <h2>It's an URL shortener!</h2>
+            {% block content %}
+            {% endblock %}
+        </section>
+        <section>
+            <h3>No, really, what is this thing?</h3>
+            <p>
+            A simple URL shortening service with Python, <a href="http://flask.pocoo.org">Flask</a> and <a href="http://gunicorn.org/">Gunicorn</a> (on Heroku).
+            </p>
+            <p>
+            Read more (and fork a clone) on <a href="https://github.com/aa-m-sa/summer-url-py">GitHub!</a>
+            </p>
+        </section>
     </article>
     </main>
 </body>
