@@ -23,10 +23,9 @@ class SummerApiTestCase(unittest.TestCase):
     def post_shorten(self, link):
         return self.app.post("/api/shorten", data = dict(link = link))
 
-
     def test_shorten(self):
         resp = self.post_shorten(self.testurl_http1)
-        self.assertEqual(resp.data[0], "1")
+        self.assertEqual(resp.headers['Content-Type'], "text/plain")
 
     def test_getbyid_ok(self):
         respPost = self.post_shorten(self.testurl_http1)
