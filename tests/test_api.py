@@ -30,13 +30,15 @@ class SummerApiTestCase(unittest.TestCase):
 
     def test_getbyid_ok(self):
         respPost = self.post_shorten(self.testurl_http1)
-        respId = self.app.get('/api/' + '1')
+        gotid = respPost.data[0]
+        respId = self.app.get('/api/' + gotid)
         self.assertEqual(respId.status_code, 301)
         self.assertEqual(respId.location, self.testurl_http1)
 
     def test_getbyid_appendscheme(self):
         respPost = self.post_shorten(self.testurl_bad)
-        respId = self.app.get('/api/' + '1')
+        gotid = respPost.data[0]
+        respId = self.app.get('/api/' + gotid)
         self.assertEqual(respId.status_code, 301)
         self.assertEqual(respId.location, "http://" + self.testurl_bad)
 
