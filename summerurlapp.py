@@ -63,16 +63,14 @@ def teardown_request(exception):
 
 # web views
 
-@app.route('/')
-def show_index():
-    """Show the webapp main page"""
-    return render_template('mainpage.html')
-
-@app.route('/addlink', methods=['POST'])
-def add_link():
-    """Web entry point for api/shorten"""
-    shortened = shorten()
-    return render_template('shortened.html', shortened = shortened)
+@app.route('/', methods=['GET', 'POST'])
+def main_page():
+    """For GET request, show the webapp main page. For POST request, let
+    shorten() take care of shortening and show the shortened url"""
+    if request.method == 'GET':
+        return render_template('mainpage.html')
+    else:
+        return render_template('shortened.html', shortened = shorten())
 
 # the underlying (public) api
 
