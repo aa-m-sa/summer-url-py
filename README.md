@@ -32,6 +32,6 @@ run `nosetests`
 * psycopg2
 * nose (for tests)
 
-## License?
+## license?
 
-[MIT](./LICENCE).
+[MIT](./LICENCE.txt).
