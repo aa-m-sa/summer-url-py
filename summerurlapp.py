@@ -7,6 +7,7 @@ import os
 import urlparse
 
 import appconfig
+import shortenid
 
 APPSETTINGS_ENVVAR = 'SUMMER_APP_CONFIG'
 
