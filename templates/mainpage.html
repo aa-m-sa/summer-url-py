@@ -1,5 +1,5 @@
-{% extends "layout.html" %}
-{% block content %}
+{% extends "base.html" %}
+{% block shortenarea %}
     <p> Shorten your link with this: </p>
     <form action="{{ url_for('main_page') }}" method=post class=add-link>
         <label for="link">Link:</label>

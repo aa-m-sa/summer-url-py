@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+    <h2>API?</h2>
+    <p>Of course!</p>
+    <p>SUrlPy has a public API available at <code>{{ url_for('api_description', _external=True)}}</code>, which implements the following description:</p>
+</section>
+<section>
+    <h3>API Description</h3>
+    <pre>
+    POST /shorten
+    Parameters: Parameter link should contain the link to shorten.
+    Returns: Id for the shortened link in text/plain format.
+    </pre>
+    <pre>
+    GET /{id}
+    Returns: 301 redirects the user agent to a previously stored URL. 404 error if no link stored with given id.
+    </pre>
+    <p>(Yes, it's the <a href="http://reaktor.fi/careers/summerjob/">Reaktor Summer Job 2015</a> task.)</p>
+</section>
+{% endblock %}

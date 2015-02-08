@@ -72,7 +72,13 @@ def main_page():
     else:
         return render_template('shortened.html', shortened = shorten())
 
+@app.route('/api/')
+def api_description():
+    """Show the api description page"""
+    return render_template('api_description.html')
+
 # the underlying (public) api
+
 
 @app.route('/api/shorten', methods=['POST'])
 def shorten():

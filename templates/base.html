@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+    <h2>It's a short URL shortener!</h2>
+    {% block shortenarea %}
+    {% endblock %}
+</section>
+<section>
+    <h3>No, really, what is this thing?</h3>
+    <p>
+    A simple URL shortening service with Python, <a href="http://flask.pocoo.org">Flask</a> and <a href="http://gunicorn.org/">Gunicorn</a> (on Heroku).
+    </p>
+    <p>
+    It also has a <a href="{{ url_for('api_description') }}">public API!</a>
+    </p>
+    <p>
+    Read more (and fork a clone) on <a href="https://github.com/aa-m-sa/summer-url-py">GitHub!</a>
+    </p>
+</section>
+{% endblock %}
