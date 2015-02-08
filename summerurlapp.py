@@ -115,8 +115,8 @@ def shorten():
     idinteger = cur.fetchone()
     if not idinteger:
         raise Exception('insertin url into db failed')
-    shortenid = str(idinteger[0])
-    return Response(shortenid, mimetype='text/plain')
+    textid = shortenid.to_text(idinteger[0])
+    return Response(textid, mimetype='text/plain')
 
 
 @app.route('/api/<textid>', methods=['GET'])
@@ -136,7 +136,7 @@ def get_link(textid):
 
     cur = g.db.cursor()
     try:
-        integer_id = int(textid)
+        integer_id = shortenid.to_int(textid)
     except ValueError:
         # current implementation returns only ids that can be converted to int
         abort(404)
