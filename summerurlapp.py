@@ -70,7 +70,8 @@ def main_page():
     if request.method == 'GET':
         return render_template('mainpage.html')
     else:
-        return render_template('shortened.html', shortened = shorten())
+        short_url = url_for('get_link', textid = shorten(), _external=True)
+        return render_template('shortened.html', shortened = short_url)
 
 @app.route('/api/')
 def api_description():
@@ -112,7 +113,7 @@ def shorten():
     if not idinteger:
         raise Exception('insertin url into db failed')
     g.db.commit()
-    return url_for('get_link', textid = str(idinteger[0]), _external=True)
+    return str(idinteger[0])
 
 
 @app.route('/api/<textid>', methods=['GET'])
