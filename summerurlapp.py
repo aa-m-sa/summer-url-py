@@ -50,7 +50,6 @@ def init_db():
 
 @app.before_request
 def before_request():
-    # later on we will be using a Heroku postgres db to store urls
     g.db = connect_db()
 
 
@@ -103,8 +102,8 @@ def shorten():
     cur = g.db.cursor()
     rawlink = request.form['link']
 
-    # crude but work in most cases
-    # TODO urlnorm normalization
+    # crude but works in most cases
+    # TODO url normalization with urlnorm?
     if not urlparse.urlparse(rawlink)[0]:
         alink = 'http://' + rawlink
     else:
@@ -114,7 +113,7 @@ def shorten():
     g.db.commit()
     idinteger = cur.fetchone()
     if not idinteger:
-        raise Exception('insertin url into db failed')
+        raise Exception('inserting url into db failed')
     textid = shortenid.to_text(idinteger[0])
     return Response(textid, mimetype='text/plain')
 
@@ -130,8 +129,6 @@ def get_link(textid):
 
     # parse text id to integer
     # fetch the url for that key from db
-
-    # TODO the parser bit
 
     cur = g.db.cursor()
     try:
